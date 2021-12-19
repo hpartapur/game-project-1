@@ -86,8 +86,8 @@ noStroke()
 strokeWeight(1)}
 
 //Scoreboard
-text("Score: "+score, 100, 100)
-text("Attempts: "+attempts, 100, 150)
+text("Score: "+score, 70, 70)
+text("Attempts: "+attempts, 70, 90)
 
 
 
