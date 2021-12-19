@@ -1,14 +1,8 @@
-/*
-
-The Game Project
-
-Week 3
-
-Game interaction
-
-*/
+//Game3
 
 
+//Declaring variables
+{
 var gameChar_x;
 var gameChar_y;
 var floorPos_y;
@@ -31,14 +25,14 @@ var arcx;
 var arcy;
 
 var speed;
-
+}
 
 function setup()
 {
-	createCanvas(1024, 576);
-	floorPos_y = height * 3/4;
-	gameChar_x = width/2;
-	gameChar_y = floorPos_y;
+    createCanvas(1024, 576);
+	  floorPos_y = height * 3/4;
+    gameChar_x = width/2;
+	  gameChar_y = floorPos_y;
 
     isLeft=false;
     isRight=false;
@@ -63,46 +57,36 @@ function draw()
 
 	///////////DRAWING CODE//////////
 
-	background(100,155,255); //fill the sky blue
+//Scenery
+{background(100,155,255); //fill the sky blue
+frameRate(28)//set base frame rate
+noStroke();
+fill(0,155,0);
+rect(0, floorPos_y, width, height - floorPos_y); //draw some green ground
+//draw the canyon
+noStroke();
+fill(255);
+fill(100, 155, 255)
+rect(canyon.x_pos,380,canyon.width,200);}
 
-    frameRate(28)
+//Dribble Frame Rate
+countFrame+=1;if (countFrame%4==0){isUp=!isUp}
 
+//HOOP
+{stroke(1)
+fill(255,255,255)
+rect(width*7/8, floorPos_y-100, 10, 100);//hoop post
+rect((width*7/8)-40, floorPos_y-140, 80, 50)//backboard
+fill(70,130,180);rect((width*7/8)-30, floorPos_y-130, 60, 40)//backboard blue
+fill(255,255,255,80)
+strokeWeight(5);stroke(255,0,0);ellipse((width*7/8), floorPos_y-105, 40, 20)//ring
+noStroke()
+strokeWeight(1)}
 
-
-	noStroke();
-	fill(0,155,0);
-	rect(0, floorPos_y, width, height - floorPos_y); //draw some green ground
-
-	//draw the canyon
-    noStroke();
-	fill(255);
-    fill(100, 155, 255)
-    rect(canyon.x_pos,380,canyon.width,200);
-
-    countFrame+=1
-    if (countFrame%4==0){isUp=!isUp}
-
-     //HOOP
-        stroke(1)
-        fill(255,255,255)
-        rect(width*7/8, floorPos_y-100, 10, 100);
-        rect((width*7/8)-40, floorPos_y-140, 80, 50)
-        fill(70,130,180)
-        rect((width*7/8)-30, floorPos_y-130, 60, 40)
-        fill(255,255,255,80)
-        strokeWeight(5)
-        stroke(255,0,0)
-        ellipse((width*7/8), floorPos_y-105, 40, 20)
-        noStroke()
-        strokeWeight(1)
-
-    //Scoreboard
-    text("Score: "+score, 100, 100)
+//Scoreboard
+text("Score: "+score, 100, 100)
 
 
-    //draw Collectable Basketball
-    //If character is less than 40 away from ball, ball is picked up. Ball is in isFound mode
-    if (dist(gameChar_x, gameChar_y, collectable.x_pos, collectable.y_pos)<40){collectable.isFound=true;}
 
     //Shooting Condition
     //If ball picked up and shooting
@@ -124,7 +108,7 @@ function draw()
         line (collectable.x_pos+((collectable.size2/6)*2), collectable.y_pos+((collectable.size2/6)*2),collectable.x_pos+collectable.size2/5,collectable.y_pos)
         strokeWeight(1)
     }
-    
+
     //Scoring Condition
     //If in shooting mode and the distance between the collectable and the hoop is less than 20
     //Console prints Score!, the collectable is reset to false, and both character and collectable are set to random x coordinate
@@ -141,8 +125,8 @@ function draw()
         textSize(1000)
         score+=2
     }
-    
-    
+
+
     //Missing Condition
     //If in shooting mode and basketball drops below floor level
     //Reset
@@ -157,7 +141,7 @@ function draw()
         stroke(0,255,0)
     }
 
-
+    //Ball state before being found
     if (collectable.isFound==false){
         stroke(0)
         strokeWeight(2)
@@ -172,11 +156,15 @@ function draw()
         line (collectable.x_pos+((collectable.size/6)*2), collectable.y_pos+((collectable.size/6)*2),collectable.x_pos+collectable.size/5,collectable.y_pos)
         strokeWeight(1)
     }
+    //isFound Mode: If character is less than 40 away from ball, ball is picked up. Ball is in isFound mode
+    if (dist(gameChar_x, gameChar_y, collectable.x_pos, collectable.y_pos)<40){collectable.isFound=true;}
+
+
+///////////GAME CHARACTER CODE//////////
+{
 
     stroke(0)
-	//the game character
-	if(isLeft && isFalling)
-	{
+  	if(isLeft && isFalling){
 		// add your jumping-left code
         fill (255,215,0)
         ellipse(gameChar_x, gameChar_y-35, 20,40)
@@ -348,7 +336,7 @@ function draw()
 
 
 	}
-	else
+	else//Front Facing
 	{
 		// add your standing front facing code
         fill (255,215,0)
@@ -382,51 +370,40 @@ function draw()
         line(gameChar_x+15, gameChar_y-45, gameChar_x+25, gameChar_y-20)
         strokeWeight(1)
         }
-
-
-
-
-
-
+}
 	}
 
-    //GRAVITY
-    if (gameChar_y<floorPos_y){isFalling=true,gameChar_y+=1}
-    else{isFalling=false;}
+ //GRAVITY-If character is above floor level, isFalling is true.
+ if (gameChar_y<floorPos_y){isFalling=true,gameChar_y+=1}
+ else{isFalling=false;}
 
 	///////////INTERACTION CODE//////////
 	//Put conditional statements to move the game character below here
 
-    if (isLeft){gameChar_x -=2.53}
-    if (isRight){gameChar_x +=2.53}
+    if (isLeft){gameChar_x -=speed}
+    if (isRight){gameChar_x +=speed}
+
+    //if character is within canyon, starts plummeting.
     if (gameChar_x>canyon.x_pos && gameChar_x<canyon.x_pos+canyon.width&&gameChar_y>=floorPos_y){isPlummeting=true;}
-    if (isPlummeting){gameChar_y+=5}
-    if (gameChar_y>floorPos_y+100){
+    if (isPlummeting){gameChar_y+=5}//starts descending very quickly
+    if (gameChar_y>floorPos_y+100){//if character falls 100 pixels below floor level, reset.
         collectable.isFound=false;
+        shooting=false
+        isFound=false
+        peak=false
+        isPlummeting=false
         collectable={x_pos: random(0, width), y_pos: floorPos_y, size: 50, isFound: false,size2:30};
         collectable.y_pos-=collectable.size/2
         gameChar_x=random(0, width)
         gameChar_y=floorPos_y
         stroke(0,255,0)
-        shooting=false
-        isFound=false
-        peak=false
-        isPlummeting=false
     }
-
 
 }
 
 
 function keyPressed()
 {
-	// if statements to control the animation of the character when
-	// keys are pressed.
-
-	//open up the console to see how these work
-//	console.log("keyPressed: " + key);
-//	console.log("keyPressed: " + keyCode);
-
     if (keyCode==37){isLeft=true;}//if left arrow pressed, move left.
     else if (keyCode==39){isRight=true;}//if arrow pressed, move right
     if (keyCode==38){gameChar_y-=100}//Press up arrow to jump
@@ -434,10 +411,7 @@ function keyPressed()
 
 function keyReleased()
 {
-	// if statements to control the animation of the character when
-	// keys are released.
     if (keyCode==37){isLeft=false;}//When left arrow released, stop moving left
     else if (keyCode==39){isRight=false;}//When right arrow released, stop moving right
-
-    if (keyCode==40&&collectable.isFound){shooting=true,console.log("SHOT")}//When down arrow released, shooting mode. 
+    if (keyCode==40&&collectable.isFound){shooting=true,console.log("SHOT")}//When down arrow released, shooting mode.
 }
