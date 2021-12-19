@@ -30,6 +30,8 @@ var peak;
 var arcx;
 var arcy;
 
+var speed;
+
 
 function setup()
 {
@@ -37,7 +39,7 @@ function setup()
 	floorPos_y = height * 3/4;
 	gameChar_x = width/2;
 	gameChar_y = floorPos_y;
-    
+
     isLeft=false;
     isRight=false;
     isFalling=false;
@@ -49,7 +51,8 @@ function setup()
     peak=false;
     arcy=random(2,3)
     arcx=random(2,3)
-    
+    speed=3
+
     collectable={x_pos: 400, y_pos: floorPos_y, size: 50, isFound: false,size2:30};
     canyon={x_pos: 750, width: 120};
     collectable.y_pos-=collectable.size/2
@@ -61,10 +64,10 @@ function draw()
 	///////////DRAWING CODE//////////
 
 	background(100,155,255); //fill the sky blue
-    
+
     frameRate(28)
-    
-    
+
+
 
 	noStroke();
 	fill(0,155,0);
@@ -78,7 +81,7 @@ function draw()
 
     countFrame+=1
     if (countFrame%4==0){isUp=!isUp}
-    
+
      //HOOP
         stroke(1)
         fill(255,255,255)
@@ -92,23 +95,23 @@ function draw()
         ellipse((width*7/8), floorPos_y-105, 40, 20)
         noStroke()
         strokeWeight(1)
-    
+
     //Scoreboard
     text("Score: "+score, 100, 100)
-    
-    
-    //draw Collectable Basketball
-    if (dist(gameChar_x, gameChar_y, collectable.x_pos, collectable.y_pos)<40){
-        collectable.isFound=true;
 
-    }
-    
-    
+
+    //draw Collectable Basketball
+    //If character is less than 40 away from ball, ball is picked up. Ball is in isFound mode
+    if (dist(gameChar_x, gameChar_y, collectable.x_pos, collectable.y_pos)<40){collectable.isFound=true;}
+
+    //Shooting Condition
+    //If ball picked up and shooting
     if (shooting&&collectable.isFound){
         stroke(0)
         strokeWeight(2)
         fill (255,140,0);
-        collectable.x_pos+=arcx
+        if (gameChar_x< width*7/8){collectable.x_pos+=arcx}//if character on right side, shoot left
+        else{collectable.x_pos-=arcx}//if character on left, shoot right
         if (collectable.y_pos>floorPos_y-200&&peak==false){collectable.y_pos-=arcy}
         else{collectable.y_pos+=arcy,peak=true}
         ellipse(collectable.x_pos,collectable.y_pos, collectable.size2, collectable.size2)
@@ -120,32 +123,40 @@ function draw()
         line (collectable.x_pos+((collectable.size2/6)*2), collectable.y_pos-((collectable.size2/6)*2),collectable.x_pos+collectable.size2/5,collectable.y_pos)
         line (collectable.x_pos+((collectable.size2/6)*2), collectable.y_pos+((collectable.size2/6)*2),collectable.x_pos+collectable.size2/5,collectable.y_pos)
         strokeWeight(1)
-        
-        
     }
+    
+    //Scoring Condition
+    //If in shooting mode and the distance between the collectable and the hoop is less than 20
+    //Console prints Score!, the collectable is reset to false, and both character and collectable are set to random x coordinate
+    //Scoreboard shooting is increased by 2
     if (shooting&&dist(width*7/8, floorPos_y-110, collectable.x_pos,collectable.y_pos)<20){
-        console.log("SCOOOOREEEE")
+        console.log("Score!")
         collectable.isFound=false;
+        shooting=false;
+        peak=false;
         collectable={x_pos: random(0, width), y_pos: floorPos_y, size: 50, isFound: false,size2:30};
         collectable.y_pos-=collectable.size/2
         gameChar_x=random(0, width)
         stroke(0,255,0)
         textSize(1000)
         score+=2
-        shooting=false
-        peak=false;
     }
-    if (collectable.isFound&&collectable.y_pos>floorPos_y){
+    
+    
+    //Missing Condition
+    //If in shooting mode and basketball drops below floor level
+    //Reset
+    if (shooting&&collectable.isFound&&collectable.y_pos>floorPos_y){
         collectable.isFound=false;
+        shooting=false;
+        isFound=false;
+        peak=false;
         collectable={x_pos: random(0, width), y_pos: floorPos_y, size: 50, isFound: false,size2:30};
         collectable.y_pos-=collectable.size/2
         gameChar_x=random(0, width)
         stroke(0,255,0)
-        shooting=false
-        isFound=false
-        peak=false
     }
-    
+
 
     if (collectable.isFound==false){
         stroke(0)
@@ -161,7 +172,7 @@ function draw()
         line (collectable.x_pos+((collectable.size/6)*2), collectable.y_pos+((collectable.size/6)*2),collectable.x_pos+collectable.size/5,collectable.y_pos)
         strokeWeight(1)
     }
-    
+
     stroke(0)
 	//the game character
 	if(isLeft && isFalling)
@@ -227,7 +238,7 @@ function draw()
         line (collectable.x_pos+((collectable.size2/6)*2), collectable.y_pos+((collectable.size2/6)*2),collectable.x_pos+collectable.size2/5,collectable.y_pos)
         strokeWeight(1)
         }
-        
+
 
 	}
 	else if(isLeft)
@@ -262,7 +273,7 @@ function draw()
         line (collectable.x_pos+((collectable.size2/6)*2), collectable.y_pos+((collectable.size2/6)*2),collectable.x_pos+collectable.size2/5,collectable.y_pos)
         strokeWeight(1)
         }
-        
+
 
 	}
 	else if(isRight)
@@ -333,8 +344,8 @@ function draw()
         line(gameChar_x+25, gameChar_y-30, gameChar_x+25, gameChar_y-20)
         strokeWeight(1)
         }
-        
-        
+
+
 
 	}
 	else
@@ -369,29 +380,23 @@ function draw()
         strokeWeight(3)
         stroke(0,0,255)
         line(gameChar_x+15, gameChar_y-45, gameChar_x+25, gameChar_y-20)
-//        line(gameChar_x+25, gameChar_y-30, gameChar_x+25, gameChar_y-20)
         strokeWeight(1)
         }
-    
-        
-       
-    
-        
+
+
+
+
+
 
 	}
-    
+
     //GRAVITY
-    if (gameChar_y<floorPos_y){
-        isFalling=true;
-        gameChar_y+=1   
-    }
-    else{
-        isFalling=false;
-    }
+    if (gameChar_y<floorPos_y){isFalling=true,gameChar_y+=1}
+    else{isFalling=false;}
 
 	///////////INTERACTION CODE//////////
 	//Put conditional statements to move the game character below here
-    
+
     if (isLeft){gameChar_x -=2.53}
     if (isRight){gameChar_x +=2.53}
     if (gameChar_x>canyon.x_pos && gameChar_x<canyon.x_pos+canyon.width&&gameChar_y>=floorPos_y){isPlummeting=true;}
@@ -408,7 +413,7 @@ function draw()
         peak=false
         isPlummeting=false
     }
-    
+
 
 }
 
@@ -421,64 +426,18 @@ function keyPressed()
 	//open up the console to see how these work
 //	console.log("keyPressed: " + key);
 //	console.log("keyPressed: " + keyCode);
-    
-    if (keyCode==37){
-        isLeft=true;
-    }
-    else if (keyCode==39){
-        isRight=true;
-    }
-//    if (keyCode==32&&gameChar_y==floorPos_y){
-        if (keyCode==38){
-        gameChar_y-=100
-    }else if (keyCode==32){
-        if (dist(width*7/8, floorPos_y-110, collectable.x_pos,collectable.y_pos)<30){
-            console.log("SCORE!")
-            collectable.isFound=false;
-            collectable={x_pos: 400, y_pos: floorPos_y, size: 50, isFound: false,size2:30};
-            collectable.y_pos-=collectable.size/2
-            gameChar_x=0
-            stroke(0,255,0)
-            textSize(1000)
-            score+=2
-        }
-        else{
-           console.log("Missed!")
-            collectable.isFound=false;
-            collectable={x_pos: 400, y_pos: floorPos_y, size: 50, isFound: false,size2:30};
-            collectable.y_pos-=collectable.size/2
-            gameChar_x=0 
-            stroke(255,0,0)
-            textSize(1000)
-            
-        }
-        
-    }
+
+    if (keyCode==37){isLeft=true;}//if left arrow pressed, move left.
+    else if (keyCode==39){isRight=true;}//if arrow pressed, move right
+    if (keyCode==38){gameChar_y-=100}//Press up arrow to jump
 }
 
 function keyReleased()
 {
 	// if statements to control the animation of the character when
 	// keys are released.
+    if (keyCode==37){isLeft=false;}//When left arrow released, stop moving left
+    else if (keyCode==39){isRight=false;}//When right arrow released, stop moving right
 
-//	console.log("keyReleased: " + key);
-//	console.log("keyReleased: " + keyCode);
-    
-    if (keyCode==37){
-//        console.log('Left Key')
-        isLeft=false;
-    }
-    else if (keyCode==39){
-//        console.log("Right Key")
-        isRight=false;
-    }
-    
-    if (keyCode==40&&collectable.isFound){
-        shooting=true
-        console.log("SHOT")
-        
-        
-            
-        }  
+    if (keyCode==40&&collectable.isFound){shooting=true,console.log("SHOT")}//When down arrow released, shooting mode. 
 }
-
