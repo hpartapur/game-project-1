@@ -9,7 +9,7 @@ To play:
 Left and right arrows to move.
 Move near the ball to pick up and start dribbling.
 Press up to jump.
-Press down to shoot.
+Press spacebar to shoot.
 Don't fall into the canyon
 
 Objective:

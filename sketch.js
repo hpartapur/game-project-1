@@ -25,6 +25,7 @@ var arcx;
 var arcy;
 
 var speed;
+var attempts;
 }
 
 function setup()
@@ -43,9 +44,10 @@ function setup()
     score=0
     shooting=false;
     peak=false;
-    arcy=random(2,3)
     arcx=random(2,3)
+    arcy=random(2,3)
     speed=3
+    attempts=0
 
     collectable={x_pos: 400, y_pos: floorPos_y, size: 50, isFound: false,size2:30};
     canyon={x_pos: 750, width: 120};
@@ -85,6 +87,7 @@ strokeWeight(1)}
 
 //Scoreboard
 text("Score: "+score, 100, 100)
+text("Attempts: "+attempts, 100, 150)
 
 
 
@@ -115,13 +118,7 @@ text("Score: "+score, 100, 100)
     //Scoreboard shooting is increased by 2
     if (shooting&&dist(width*7/8, floorPos_y-110, collectable.x_pos,collectable.y_pos)<20){
         console.log("Score!")
-        collectable.isFound=false;
-        shooting=false;
-        peak=false;
-        collectable={x_pos: random(0, width), y_pos: floorPos_y, size: 50, isFound: false,size2:30};
-        collectable.y_pos-=collectable.size/2
-        gameChar_x=random(0, width)
-        stroke(0,255,0)
+        reset()
         textSize(1000)
         score+=2
     }
@@ -131,14 +128,7 @@ text("Score: "+score, 100, 100)
     //If in shooting mode and basketball drops below floor level
     //Reset
     if (shooting&&collectable.isFound&&collectable.y_pos>floorPos_y){
-        collectable.isFound=false;
-        shooting=false;
-        isFound=false;
-        peak=false;
-        collectable={x_pos: random(0, width), y_pos: floorPos_y, size: 50, isFound: false,size2:30};
-        collectable.y_pos-=collectable.size/2
-        gameChar_x=random(0, width)
-        stroke(0,255,0)
+        reset()
     }
 
     //Ball state before being found
@@ -386,18 +376,7 @@ text("Score: "+score, 100, 100)
     //if character is within canyon, starts plummeting.
     if (gameChar_x>canyon.x_pos && gameChar_x<canyon.x_pos+canyon.width&&gameChar_y>=floorPos_y){isPlummeting=true;}
     if (isPlummeting){gameChar_y+=5}//starts descending very quickly
-    if (gameChar_y>floorPos_y+100){//if character falls 100 pixels below floor level, reset.
-        collectable.isFound=false;
-        shooting=false
-        isFound=false
-        peak=false
-        isPlummeting=false
-        collectable={x_pos: random(0, width), y_pos: floorPos_y, size: 50, isFound: false,size2:30};
-        collectable.y_pos-=collectable.size/2
-        gameChar_x=random(0, width)
-        gameChar_y=floorPos_y
-        stroke(0,255,0)
-    }
+    if (gameChar_y>floorPos_y+100){reset()}//if character falls 100 pixels below floor level, reset.
 
 }
 
@@ -413,5 +392,18 @@ function keyReleased()
 {
     if (keyCode==37){isLeft=false;}//When left arrow released, stop moving left
     else if (keyCode==39){isRight=false;}//When right arrow released, stop moving right
-    if (keyCode==40&&collectable.isFound){shooting=true,console.log("SHOT")}//When down arrow released, shooting mode.
+    if (keyCode==32&&collectable.isFound){shooting=true,console.log("SHOT")}//When spacebar released, shooting mode.
+}
+function reset() {
+  collectable.isFound=false;
+  shooting=false;
+  isFound=false;
+  peak=false;
+  collectable={x_pos: random(0, width), y_pos: floorPos_y, size: 50, isFound: false,size2:30};
+  collectable.y_pos-=collectable.size/2
+  gameChar_x=random(0, width)
+  gameChar_y=floorPos_y
+  stroke(0,255,0)
+  attempts+=1
+  isPlummeting=false;
 }
