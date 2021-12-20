@@ -26,6 +26,7 @@ var arcy;
 
 var speed;
 var attempts;
+var harf
 }
 
 function setup()
@@ -48,6 +49,7 @@ function setup()
     arcy=random(2,3)
     speed=3
     attempts=0
+    harf=''
 
     collectable={x_pos: 400, y_pos: floorPos_y, size: 50, isFound: false,size2:30};
     canyon={x_pos: 750, width: 120};
@@ -87,7 +89,8 @@ strokeWeight(1)}
 
 //Scoreboard
 text("Score: "+score, 70, 70)
-text("Attempts: "+attempts, 70, 90)
+text("Attempts: "+attempts, 70, 90);
+text(harf, 100,100)
 
 
 
@@ -386,6 +389,15 @@ function keyPressed()
     if (keyCode==37){isLeft=true;}//if left arrow pressed, move left.
     else if (keyCode==39){isRight=true;}//if arrow pressed, move right
     if (keyCode==38){gameChar_y-=100}//Press up arrow to jump
+    if (keyCode==72){harf="ا"}
+    else if (keyCode==70){harf="ب"}
+    else if (keyCode==74){harf="ت"}
+    else if (keyCode==69){harf="ث", console.log(harf)}
+    else if (keyCode==219){harf="ج"}
+    else if (keyCode==80){harf="ح"}
+    else if (keyCode==79){harf="خ"}
+    
+    console.log(event.keyCode)
 }
 
 function keyReleased()
@@ -393,6 +405,7 @@ function keyReleased()
     if (keyCode==37){isLeft=false;}//When left arrow released, stop moving left
     else if (keyCode==39){isRight=false;}//When right arrow released, stop moving right
     if (keyCode==32&&collectable.isFound){shooting=true,console.log("SHOT")}//When spacebar released, shooting mode.
+    
 }
 function reset() {
   collectable.isFound=false;
