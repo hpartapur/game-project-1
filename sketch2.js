@@ -65,12 +65,15 @@ function setup()
     shooting=false;
     peak=false;
     arcx=random(2,3)
-    arcy=random(2,3)
-    speed=3
+    arcy=random(3,4)
+    speed=5
     attempts=0
+    seconds=24
 
     grab=false;
     grab2=false;
+    grav=2
+    gameplay=false
 
     collectable={x_pos: 400, y_pos: floorPos_y, size: 50, isFound: false, isFound2: false, size2:30};
     collectable.y_pos-=collectable.size/2
@@ -89,14 +92,25 @@ frameRate(28)//set base frame rate
 noStroke();
 fill(0,155,0);
 rect(0, floorPos_y, width, height - floorPos_y); //draw some green ground
-text("https://github.com/hpartapur/game-project-1"width*0.4, height-20)
+fill(0,155,0)
+stroke(255,255,255)
+strokeWeight(2)
+ellipse(width/2, height*11/12, 97,97)
+fill(255,255,255)
+ellipse(width/2, height*11/12, 10,10)
+line(width/2, floorPos_y, width/2, height)
+line(width*0.32, floorPos_y, width*0.32, height)
 }
 
 //Dribble Frame Rate
 countFrame+=1;if (countFrame%4==0){isUp=!isUp}
+    
+//Shot Clock
+if (countFrame%21==0&&gameplay==true){seconds--}
+if (seconds==0){reset()}
 
 //HOOP
-{stroke(1)
+{stroke(1);strokeWeight(1)
 fill(255,255,255)
 rect(width*7/8, floorPos_y-100, 10, 100);//hoop post
 rect((width*7/8)-40, floorPos_y-140, 80, 50)//backboard
@@ -110,7 +124,7 @@ textSize(25)
 text("GSW",width*13.8/16,floorPos_y+30)
 
 //HOOP2
-{stroke(1)
+{stroke(1), strokeWeight(1)
 fill(255,255,255)
 rect(width*1/8, floorPos_y-100, 10, 100);//hoop post
 rect((width*1/8)-40, floorPos_y-140, 80, 50)//backboard
@@ -125,14 +139,16 @@ text("LAL",width*0.9/8,floorPos_y+30)
 
 
 //Scoreboard
-fill(30,144,255,150)
-rect(width*0.4,30,200,50)
+// fill(30,144,255,150)
+// rect(width*0.4,30,200,50)
 fill(0,0,200)
 text("Warriors", width*0.41, 50)
 text(score, width*0.45, 70)
 fill(128,0,128)
 text("Lakers", width*0.51,50)
 text(score2, width*0.52, 70)
+fill(255,0,0)
+//text (seconds, width*0.5, 100)
 
 
 
@@ -158,12 +174,12 @@ text(score2, width*0.52, 70)
     //If in shooting mode and the distance between the collectable and the hoop is less than 20
     //Console prints Score!, the collectable is reset to false, and both character and collectable are set to random x coordinate
     //Scoreboard shooting is increased by 2
-    if (shooting&&dist(width*7/8, floorPos_y-110, collectable.x_pos,collectable.y_pos)<20){
+    if (shooting&&dist(width*7/8, floorPos_y-110, collectable.x_pos,collectable.y_pos)<25){
         console.log("Score!")
         reset()
         score+=2
     }
-    if (shooting2 &&dist(width*1/8, floorPos_y-110, collectable.x_pos,collectable.y_pos)<20){
+    if (shooting2 &&dist(width*1/8, floorPos_y-110, collectable.x_pos,collectable.y_pos)<25){
         console.log("Score!")
         reset()
         score2+=2
@@ -535,9 +551,9 @@ text(score2, width*0.52, 70)
 
 
  //GRAVITY-If character is above floor level, isFalling is true.
- if (gameChar_y<floorPos_y){isFalling=true,gameChar_y+=1}
+ if (gameChar_y<floorPos_y){isFalling=true,gameChar_y+=grav}
  else{isFalling=false;}
-    if (gameChar_y2<floorPos_y){isFalling2=true, gameChar_y2+=1}
+    if (gameChar_y2<floorPos_y){isFalling2=true, gameChar_y2+=grav}
     else{isFalling2=false;}
 
 	///////////INTERACTION CODE//////////
@@ -565,6 +581,7 @@ function keyPressed()
 
     if(keyCode==20){grab2=true}
     if(keyCode==13){grab=true}
+    if (keyCode==32){gameplay=true}
 }
 
 function keyReleased()
@@ -585,6 +602,7 @@ function reset() {
   shooting=false;shooting2=false;
   isFound=false;isFound2=false;
   peak=false;
+  seconds=24;
   collectable={x_pos: width/2, y_pos: floorPos_y-90, size: 50, isFound: false, isFound2:false, size2:30};
   collectable.y_pos-=collectable.size/2
   gameChar_x=width*0.47
@@ -594,6 +612,7 @@ function reset() {
   stroke(0,255,0)
   attempts+=1
   isPlummeting=false;
+gameplay=false;
 }
 function ball(x,y){
 
