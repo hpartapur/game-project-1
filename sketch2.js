@@ -37,6 +37,8 @@ var attempts;
 
 var grab;
 var grab2;
+var trajectory;
+var trajectoryx;
 }
 
 function setup()
@@ -73,6 +75,8 @@ function setup()
     grab2=false;
     grav=2
     gameplay=false
+    trajectory=4;
+    trajectorx=3;
 
     collectable={x_pos: 400, y_pos: floorPos_y, size: 50, isFound: false, isFound2: false, size2:30};
     collectable.y_pos-=collectable.size/2
@@ -160,19 +164,28 @@ fill(255,0,0)
     //Shooting Condition
     //If ball picked up and shooting
     if (shooting&&collectable.isFound){
-        if (gameChar_x< width*7/8){collectable.x_pos+=arcx}//if character on right side, shoot left
-        else{collectable.x_pos-=arcx}//if character on left, shoot right
-        if (collectable.y_pos>floorPos_y-200&&peak==false){collectable.y_pos-=arcy}
-        else{collectable.y_pos+=arcy,peak=true}
+//        if (gameChar_x< width*7/8){collectable.x_pos+=arcx}//if character on right side, shoot left
+//        else{collectable.x_pos-=arcx}//if character on left, shoot right
+//        if (collectable.y_pos>floorPos_y-200&&peak==false){collectable.y_pos-=arcy}
+//        else{collectable.y_pos+=arcy,peak=true}
+//        ball(collectable.x_pos, collectable.y_pos)
+        collectable.x_pos+=trajectorx
+        collectable.y_pos-=trajectory
         ball(collectable.x_pos, collectable.y_pos)
+        trajectory-=0.08
+        
     }
     if (shooting2&&collectable.isFound2){
-        if (gameChar_x2<width*1/8)
-        {collectable.x_pos+=arcx}
-        else{collectable.x_pos-=arcx}
-        if (collectable.y_pos>floorPos_y-200&&peak==false){collectable.y_pos-=arcy}
-        else{collectable.y_pos+=arcy,peak=true}
+//        if (gameChar_x2<width*1/8)
+//        {collectable.x_pos+=arcx}
+//        else{collectable.x_pos-=arcx}
+//        if (collectable.y_pos>floorPos_y-200&&peak==false){collectable.y_pos-=arcy}
+//        else{collectable.y_pos+=arcy,peak=true}
+//        ball(collectable.x_pos, collectable.y_pos)
+        collectable.x_pos-=trajectorx
+        collectable.y_pos-=trajectory
         ball(collectable.x_pos, collectable.y_pos)
+        trajectory-=0.08
     }
 
     //Scoring Condition
@@ -620,6 +633,7 @@ function reset() {
   attempts+=1
   isPlummeting=false;
 gameplay=false;
+trajectory=4;
 }
 function ball(x,y){
 
