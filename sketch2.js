@@ -64,12 +64,11 @@ function setup()
     score2=0;
     shooting=false;
     peak=false;
-    arcx=random(2,3)
+    arcx=random(3,4)
     arcy=random(3,4)
     speed=5
     attempts=0
     seconds=24
-
     grab=false;
     grab2=false;
     grav=2
@@ -92,19 +91,21 @@ frameRate(28)//set base frame rate
 noStroke();
 fill(0,155,0);
 rect(0, floorPos_y, width, height - floorPos_y); //draw some green ground
-fill(0,155,0)
 stroke(255,255,255)
 strokeWeight(2)
+arc(width*0.33, floorPos_y+50, 100, 100,4.7,1.57, OPEN);
+arc(width*0.66, floorPos_y+50, 100, 100,1.57,4.7, OPEN);
 ellipse(width/2, height*11/12, 97,97)
 fill(255,255,255)
 ellipse(width/2, height*11/12, 10,10)
 line(width/2, floorPos_y, width/2, height)
-line(width*0.32, floorPos_y, width*0.32, height)
 }
+
+
 
 //Dribble Frame Rate
 countFrame+=1;if (countFrame%4==0){isUp=!isUp}
-    
+
 //Shot Clock
 if (countFrame%21==0&&gameplay==true){seconds--}
 if (seconds==0){reset()}
@@ -136,17 +137,16 @@ strokeWeight(1)}
 fill(128,0,128)
 textSize(25)
 text("LAL",width*0.9/8,floorPos_y+30)
+text("W/Up: Jump", width/2, height-50)
 
 
 //Scoreboard
-// fill(30,144,255,150)
-// rect(width*0.4,30,200,50)
+fill(150,150,100,150)
+rect(width*0.41,30,195,30)
 fill(0,0,200)
-text("Warriors", width*0.41, 50)
-text(score, width*0.45, 70)
+text("GSW: "+score, width*0.41, 50)
 fill(128,0,128)
-text("Lakers", width*0.51,50)
-text(score2, width*0.52, 70)
+text("LAL: "+score2, width*0.41,70)
 fill(255,0,0)
 //text (seconds, width*0.5, 100)
 
@@ -176,11 +176,13 @@ fill(255,0,0)
     //Scoreboard shooting is increased by 2
     if (shooting&&dist(width*7/8, floorPos_y-110, collectable.x_pos,collectable.y_pos)<25){
         console.log("Score!")
+        if (gameChar_x<width*0.66){score+=1}
         reset()
         score+=2
     }
     if (shooting2 &&dist(width*1/8, floorPos_y-110, collectable.x_pos,collectable.y_pos)<25){
         console.log("Score!")
+				if (gameChar_x2>width*0.33){score2+=1}
         reset()
         score2+=2
     }
