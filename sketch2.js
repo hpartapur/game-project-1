@@ -137,8 +137,13 @@ strokeWeight(1)}
 fill(128,0,128)
 textSize(25)
 text("LAL",width*0.9/8,floorPos_y+30)
-text("W/Up: Jump", width/2, height-50)
-
+fill(255,255,255,80)
+textSize(15)
+text("W/Up Arrow: Jump", width*0.05, height*0.05)
+text("D/Right Arrow: Sprint Right",width*0.05, height*0.08)
+text("A/Left Arrow: Sprint Left",width*0.05, height*0.11)
+text("S/Down Arrow: Shoot",width*0.05, height*0.14)
+textSize(25)
 
 //Scoreboard
 fill(150,150,100,150)
