@@ -39,6 +39,7 @@ var grab;
 var grab2;
 var trajectory;
 var trajectoryx;
+
 }
 
 function setup()
@@ -76,7 +77,7 @@ function setup()
     grav=2
     gameplay=false
     trajectory=4;
-    trajectorx=3;
+    trajectorx=4;
 
     collectable={x_pos: 400, y_pos: floorPos_y, size: 50, isFound: false, isFound2: false, size2:30};
     collectable.y_pos-=collectable.size/2
@@ -172,8 +173,8 @@ fill(255,0,0)
         collectable.x_pos+=trajectorx
         collectable.y_pos-=trajectory
         ball(collectable.x_pos, collectable.y_pos)
-        trajectory-=0.08
-        
+        trajectory-=0.09
+
     }
     if (shooting2&&collectable.isFound2){
 //        if (gameChar_x2<width*1/8)
@@ -192,13 +193,13 @@ fill(255,0,0)
     //If in shooting mode and the distance between the collectable and the hoop is less than 20
     //Console prints Score!, the collectable is reset to false, and both character and collectable are set to random x coordinate
     //Scoreboard shooting is increased by 2
-    if (shooting&&dist(width*7/8, floorPos_y-110, collectable.x_pos,collectable.y_pos)<25){
+    if (shooting&&dist(width*7/8, floorPos_y-110, collectable.x_pos,collectable.y_pos)<21){
         console.log("Score!")
         if (gameChar_x<width*0.66){score+=1}
         reset()
         score+=2
     }
-    if (shooting2 &&dist(width*1/8, floorPos_y-110, collectable.x_pos,collectable.y_pos)<25){
+    if (shooting2 &&dist(width*1/8, floorPos_y-110, collectable.x_pos,collectable.y_pos)<21){
         console.log("Score!")
 				if (gameChar_x2>width*0.33){score2+=1}
         reset()
@@ -243,8 +244,7 @@ fill(255,0,0)
 		// add your jumping-left code
         fill (255,215,0)
         ellipse(gameChar_x, gameChar_y-35, 20,40)
-        fill(245,222,179)
-        ellipse(gameChar_x, gameChar_y-65, 10,20)
+        sidehead(gameChar_x, gameChar_y-65, 10,20)
         fill(10,0,200)
         rect(gameChar_x-5, gameChar_y-20, 10,18)
         triangle(gameChar_x-5, gameChar_y-9, gameChar_x-5, gameChar_y-2, gameChar_x-12, gameChar_y+2)
@@ -268,8 +268,7 @@ fill(255,0,0)
 		// add your jumping-right code
         fill (255,215,0)
         ellipse(gameChar_x, gameChar_y-35, 20,40)
-        fill(245,222,179)
-        ellipse(gameChar_x, gameChar_y-65, 10,20)
+       	sidehead(gameChar_x, gameChar_y-65, 10,20)
         fill(10,0,200)
         rect(gameChar_x-5, gameChar_y-20, 10,18)
         triangle(gameChar_x+5, gameChar_y-9, gameChar_x+5, gameChar_y-2, gameChar_x+12, gameChar_y+2)
@@ -294,8 +293,7 @@ fill(255,0,0)
 		// add your walking left code
         fill (255,215,0)
         ellipse(gameChar_x, gameChar_y-30, 20,40)
-        fill(245,222,179)
-        ellipse(gameChar_x, gameChar_y-60, 10,20)
+        sidehead(gameChar_x, gameChar_y-60, 10,20)
         fill(10,0,200)
         rect(gameChar_x-5, gameChar_y-15, 10,18)
         triangle(gameChar_x-5, gameChar_y-4, gameChar_x-5, gameChar_y+3, gameChar_x-12, gameChar_y+3)
@@ -321,8 +319,7 @@ fill(255,0,0)
 		// add your walking right code
         fill (255,215,0)
         ellipse(gameChar_x, gameChar_y-30, 20,40)
-        fill(245,222,179)
-        ellipse(gameChar_x, gameChar_y-60, 10,20)
+       	sidehead(gameChar_x, gameChar_y-60, 10,20)
         fill(10,0,200)
         rect(gameChar_x-5, gameChar_y-15, 10,18)
         triangle(gameChar_x+5, gameChar_y-4, gameChar_x+5, gameChar_y+3, gameChar_x+12, gameChar_y+3)
@@ -346,15 +343,14 @@ fill(255,0,0)
 	{
 		// add your jumping facing forwards code
         fill (255,215,0)
-        rect(gameChar_x-15, gameChar_y-55, 30,35)
-        fill(245,222,179)
-        ellipse(gameChar_x, gameChar_y-65, 20,20)
+        rect(gameChar_x-15, gameChar_y-50, 30,35)
+        head(gameChar_x, gameChar_y-60, 20)
         fill(10,0,200)
-        rect(gameChar_x+3, gameChar_y-20, 12,18)
-        rect(gameChar_x-15, gameChar_y-20, 12,18)
+        rect(gameChar_x+3, gameChar_y-15, 12,18)
+        rect(gameChar_x-15, gameChar_y-15, 12,18)
         fill(0,0,255)
         textSize(20)
-        text("30",gameChar_x-10,gameChar_y-30)
+        text("30",gameChar_x-10,gameChar_y-25)
         if (collectable.isFound&&shooting==false){
         stroke(0)
         strokeWeight(2)
@@ -375,10 +371,9 @@ fill(255,0,0)
 	else//Front Facing
 	{
 		// add your standing front facing code
-        fill (255,215,0)
+        fill(255,215,0)
         rect(gameChar_x-15, gameChar_y-50, 30,35)
-        fill(245,222,179)
-        ellipse(gameChar_x, gameChar_y-60, 20,20)
+        head(gameChar_x, gameChar_y-60, 20)
         fill(10,0,200)
         rect(gameChar_x+3, gameChar_y-15, 12,18)
         rect(gameChar_x-15, gameChar_y-15, 12,18)
@@ -410,8 +405,7 @@ fill(255,0,0)
 		// add your jumping-left code
         fill (128,0,128)
         ellipse(gameChar_x2, gameChar_y2-35, 20,40)
-        fill(245,222,179)
-        ellipse(gameChar_x2, gameChar_y2-65, 10,20)
+        sidehead(gameChar_x2, gameChar_y2-65, 10,20)
         fill(10,0,200)
         rect(gameChar_x2-5, gameChar_y2-20, 10,18)
         triangle(gameChar_x2-5, gameChar_y2-9, gameChar_x2-5, gameChar_y2-2, gameChar_x2-12, gameChar_y2+2)
@@ -435,8 +429,7 @@ fill(255,0,0)
 		// add your jumping-right code
         fill (128,0,128)
         ellipse(gameChar_x2, gameChar_y2-35, 20,40)
-        fill(245,222,179)
-        ellipse(gameChar_x2, gameChar_y2-65, 10,20)
+        sidehead(gameChar_x2, gameChar_y2-65, 10,20)
         fill(10,0,200)
         rect(gameChar_x2-5, gameChar_y2-20, 10,18)
         triangle(gameChar_x2+5, gameChar_y2-9, gameChar_x2+5, gameChar_y2-2, gameChar_x2+12, gameChar_y2+2)
@@ -461,8 +454,7 @@ fill(255,0,0)
 		// add your walking left code
         fill (128,0,128)
         ellipse(gameChar_x2, gameChar_y2-30, 20,40)
-        fill(245,222,179)
-        ellipse(gameChar_x2, gameChar_y2-60, 10,20)
+        sidehead(gameChar_x2, gameChar_y2-60, 10,20)
         fill(10,0,200)
         rect(gameChar_x2-5, gameChar_y2-15, 10,18)
         triangle(gameChar_x2-5, gameChar_y2-4, gameChar_x2-5, gameChar_y2+3, gameChar_x2-12, gameChar_y2+3)
@@ -488,8 +480,7 @@ fill(255,0,0)
 		// add your walking right code
         fill (128,0,128)
         ellipse(gameChar_x2, gameChar_y2-30, 20,40)
-        fill(245,222,179)
-        ellipse(gameChar_x2, gameChar_y2-60, 10,20)
+				sidehead(gameChar_x2, gameChar_y2-60, 10,20)
         fill(10,0,200)
         rect(gameChar_x2-5, gameChar_y2-15, 10,18)
         triangle(gameChar_x2+5, gameChar_y2-4, gameChar_x2+5, gameChar_y2+3, gameChar_x2+12, gameChar_y2+3)
@@ -513,15 +504,15 @@ fill(255,0,0)
 	{
 		// add your jumping facing forwards code
         fill (128,0,128)
-        rect(gameChar_x2-15, gameChar_y2-55, 30,35)
+        rect(gameChar_x2-15, gameChar_y2-50, 30,35)
         fill(245,222,179)
-        ellipse(gameChar_x2, gameChar_y2-65, 20,20)
+        ellipse(gameChar_x2, gameChar_y2-60, 20,20)
         fill(10,0,200)
-        rect(gameChar_x2+3, gameChar_y2-20, 12,18)
-        rect(gameChar_x2-15, gameChar_y2-20, 12,18)
+        rect(gameChar_x2+3, gameChar_y2-15, 12,18)
+        rect(gameChar_x2-15, gameChar_y2-15, 12,18)
         fill(255,215,0)
         textSize(20)
-        text("23",gameChar_x2-10,gameChar_y2-30)
+        text("23",gameChar_x2-10,gameChar_y2-25)
         if (collectable.isFound2&&shooting2==false){
         stroke(0)
         strokeWeight(2)
@@ -544,8 +535,7 @@ fill(255,0,0)
 		// add your standing front facing code
         fill (128,0,128)
         rect(gameChar_x2-15, gameChar_y2-50, 30,35)
-        fill(245,222,179)
-        ellipse(gameChar_x2, gameChar_y2-60, 20,20)
+        head(gameChar_x2,gameChar_y2-60, 20)
         fill(10,0,200)
         rect(gameChar_x2+3, gameChar_y2-15, 12,18)
         rect(gameChar_x2-15, gameChar_y2-15, 12,18)
@@ -573,8 +563,8 @@ fill(255,0,0)
  //GRAVITY-If character is above floor level, isFalling is true.
  if (gameChar_y<floorPos_y){isFalling=true,gameChar_y+=grav}
  else{isFalling=false;}
-    if (gameChar_y2<floorPos_y){isFalling2=true, gameChar_y2+=grav}
-    else{isFalling2=false;}
+ if (gameChar_y2<floorPos_y){isFalling2=true, gameChar_y2+=grav}
+ else{isFalling2=false;}
 
 	///////////INTERACTION CODE//////////
 	//Put conditional statements to move the game character below here
@@ -617,7 +607,7 @@ function keyReleased()
     if(keyCode==20){grab2=false}
     if(keyCode==13){grab=false}
 }
-function reset() {
+function reset() {//Every time the ball drops, to restart gameplay
   collectable.isFound=false;
   shooting=false;shooting2=false;
   isFound=false;isFound2=false;
@@ -627,27 +617,38 @@ function reset() {
   collectable.y_pos-=collectable.size/2
   gameChar_x=width*0.47
   gameChar_y=floorPos_y
-    gameChar_x2=width*0.53
-    gameChar_y2=floorPos_y
+  gameChar_x2=width*0.53
+ 	gameChar_y2=floorPos_y
   stroke(0,255,0)
   attempts+=1
   isPlummeting=false;
-gameplay=false;
-trajectory=4;
+	gameplay=false;
+	trajectory=4;
 }
-function ball(x,y){
+function ball(x,y){ //Draws ball at collectable position
+	stroke(0)
+	strokeWeight(2)
+	fill (255,140,0);
+	collectable.x_pos=x
+	ellipse(collectable.x_pos,collectable.y_pos, collectable.size2, collectable.size2)
+	fill(0)
+	line (collectable.x_pos+(collectable.size2/2), collectable.y_pos, collectable.x_pos-(collectable.size2/2), collectable.y_pos)
+	line (collectable.x_pos, collectable.y_pos+(collectable.size2/2), collectable.x_pos, collectable.y_pos-(collectable.size2/2))
+	line (collectable.x_pos-((collectable.size2/6)*2), collectable.y_pos-((collectable.size2/6)*2),collectable.x_pos-collectable.size2/5,collectable.y_pos)
+	line (collectable.x_pos-((collectable.size2/6)*2), collectable.y_pos+((collectable.size2/6)*2),collectable.x_pos-collectable.size2/5,collectable.y_pos)
+	line (collectable.x_pos+((collectable.size2/6)*2), collectable.y_pos-((collectable.size2/6)*2),collectable.x_pos+collectable.size2/5,collectable.y_pos)
+	line (collectable.x_pos+((collectable.size2/6)*2), collectable.y_pos+((collectable.size2/6)*2),collectable.x_pos+collectable.size2/5,collectable.y_pos)
+	strokeWeight(1)
+  }
 
-    stroke(0)
-    strokeWeight(2)
-    fill (255,140,0);
-    collectable.x_pos=x
-    ellipse(collectable.x_pos,collectable.y_pos, collectable.size2, collectable.size2)
-    fill(0)
-    line (collectable.x_pos+(collectable.size2/2), collectable.y_pos, collectable.x_pos-(collectable.size2/2), collectable.y_pos)
-    line (collectable.x_pos, collectable.y_pos+(collectable.size2/2), collectable.x_pos, collectable.y_pos-(collectable.size2/2))
-    line (collectable.x_pos-((collectable.size2/6)*2), collectable.y_pos-((collectable.size2/6)*2),collectable.x_pos-collectable.size2/5,collectable.y_pos)
-    line (collectable.x_pos-((collectable.size2/6)*2), collectable.y_pos+((collectable.size2/6)*2),collectable.x_pos-collectable.size2/5,collectable.y_pos)
-    line (collectable.x_pos+((collectable.size2/6)*2), collectable.y_pos-((collectable.size2/6)*2),collectable.x_pos+collectable.size2/5,collectable.y_pos)
-    line (collectable.x_pos+((collectable.size2/6)*2), collectable.y_pos+((collectable.size2/6)*2),collectable.x_pos+collectable.size2/5,collectable.y_pos)
-    strokeWeight(1)
-        }
+
+//////Color Scheme Functions////////
+function head(x,y,diameter){
+	skincolor()
+	ellipse(x,y, diameter, diameter)
+}
+function sidehead(x,y,width,height){
+	skincolor()
+	ellipse(x,y,width,height)
+}
+function skincolor (){fill(245,222,179)}
