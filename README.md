@@ -19,7 +19,7 @@ You can receive updates to the game by opening a command line here and typing gi
 If this doesn't work, you can go to https://github.com/hpartapur/game-project-1 and open the new zip file, after deleting this file.
 For any errors, bugs, or suggestions, please create a pull request at https://github.com/hpartapur/game-project-1
 
-The new 2player game is still currently under development, as of January 12, 2021
+For any suggestions, please contact hpartapur@gmail.com
 
 #GAME2
 2 player version.
